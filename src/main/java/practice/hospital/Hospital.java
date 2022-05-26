@@ -1,23 +1,37 @@
 package practice.hospital;
+import java.util.Arrays;
 
 public class Hospital {
 
     public static float[] generatePatientsTemperatures(int patientsCount) {
-        return new float[0];
+        float[] patientsTemperature = new float[patientsCount];
+        for (int i = 0; i < patientsTemperature.length; i++) {
+            patientsTemperature[i] = Math.round(((float) (Math.random() * (40.0 - 32.0)) + 32.0) * 10) / 10f;
+        }
+        return patientsTemperature;
     }
 
     public static String getReport(float[] temperatureData) {
-        /*
-        TODO: Напишите код, который выводит среднюю температуру по больнице,количество здоровых пациентов,
-            а также температуры всех пациентов.
-            Округлите среднюю температуру с помощью Math.round до 2 знаков после запятой,
-            а температуры каждого пациента до 1 знака после запятой
-        */
+        double average = 0;
+        if (temperatureData.length > 0) {
+            double sum = 0;
+            for (int j = 0; j < temperatureData.length; j++) {
+                sum += temperatureData[j];
+            }
+            average = sum / temperatureData.length;
+        }
+
+        int countHealthyPatients = 0;
+        for (float temperaturePatient : temperatureData){
+            if (temperaturePatient >= 36.2f && temperaturePatient <= 36.9f) {
+                countHealthyPatients++;
+            }
+        }
 
         String report =
-            "Температуры пациентов: " + 1 +
-            "\nСредняя температура: " + 0 +
-            "\nКоличество здоровых: " + 0;
+            "Температуры пациентов: " + Arrays.toString(temperatureData).replaceAll("[\\[,\\]]","") +
+            "\nСредняя температура: " + String.format("%.2f", average)+
+            "\nКоличество здоровых: " + countHealthyPatients;
 
         return report;
     }
